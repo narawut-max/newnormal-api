@@ -2,7 +2,7 @@ package com.it.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;

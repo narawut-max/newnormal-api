@@ -1,7 +1,7 @@
 package com.it.entity;
 
 import java.io.Serializable;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
