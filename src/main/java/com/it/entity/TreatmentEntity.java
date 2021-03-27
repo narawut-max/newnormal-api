@@ -1,8 +1,8 @@
 package com.it.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.security.Timestamp;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,9 +19,12 @@ public class TreatmentEntity implements Serializable{
 	private String tmId;
 	private Date tmDate;
 	private Timestamp tmTime;
-	private DecimalFormat tmMoney;
+	private BigDecimal tmMoney;
 	private String tmSlip;
 	private String tmStatus;
+	private String userId;
+	private Integer bkId;
+	private Integer billId;
 	
 	//GET-SET
 	public String getTmId() {
@@ -42,10 +45,10 @@ public class TreatmentEntity implements Serializable{
 	public void setTmTime(Timestamp tmTime) {
 		this.tmTime = tmTime;
 	}
-	public DecimalFormat getTmMoney() {
+	public BigDecimal getTmMoney() {
 		return tmMoney;
 	}
-	public void setTmMoney(DecimalFormat tmMoney) {
+	public void setTmMoney(BigDecimal tmMoney) {
 		this.tmMoney = tmMoney;
 	}
 	public String getTmSlip() {
@@ -60,6 +63,25 @@ public class TreatmentEntity implements Serializable{
 	public void setTmStatus(String tmStatus) {
 		this.tmStatus = tmStatus;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public Integer getBkId() {
+		return bkId;
+	}
+	public void setBkId(Integer bkId) {
+		this.bkId = bkId;
+	}
+	public Integer getBillId() {
+		return billId;
+	}
+	public void setBillId(Integer billId) {
+		this.billId = billId;
+	}
+	
 	
 	
 

@@ -1,7 +1,7 @@
 package com.it.entity;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -21,10 +21,9 @@ public class DrugEntity implements Serializable{
 	private String drugActive;
 	private Date drugMfg;
 	private Date drugExp;
-	private DecimalFormat drugPrice;
+	private BigDecimal drugPrice;
 	private String drugAmount;
-	
-	//GET-SET
+	private String ctgId;
 	public String getDrugId() {
 		return drugId;
 	}
@@ -61,10 +60,10 @@ public class DrugEntity implements Serializable{
 	public void setDrugExp(Date drugExp) {
 		this.drugExp = drugExp;
 	}
-	public DecimalFormat getDrugPrice() {
+	public BigDecimal getDrugPrice() {
 		return drugPrice;
 	}
-	public void setDrugPrice(DecimalFormat drugPrice) {
+	public void setDrugPrice(BigDecimal drugPrice) {
 		this.drugPrice = drugPrice;
 	}
 	public String getDrugAmount() {
@@ -73,6 +72,15 @@ public class DrugEntity implements Serializable{
 	public void setDrugAmount(String drugAmount) {
 		this.drugAmount = drugAmount;
 	}
+	public String getCtgId() {
+		return ctgId;
+	}
+	public void setCtgId(String ctgId) {
+		this.ctgId = ctgId;
+	}
+	
+	
+	
 	
 	
 }

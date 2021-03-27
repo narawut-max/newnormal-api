@@ -17,6 +17,7 @@ public class SubdistrictEntity implements Serializable{
 	private String zipCode;
 	private String sdtNameTh;
 	private String sdtNameEng;
+	private Integer disID;
 	
 	//GET-SET
 	public Integer getSdtID() {
@@ -42,6 +43,12 @@ public class SubdistrictEntity implements Serializable{
 	}
 	public void setSdtNameEng(String sdtNameEng) {
 		this.sdtNameEng = sdtNameEng;
+	}
+	public Integer getDisID() {
+		return disID;
+	}
+	public void setDisID(Integer disID) {
+		this.disID = disID;
 	}
 	
 	

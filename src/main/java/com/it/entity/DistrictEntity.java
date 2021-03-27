@@ -17,6 +17,7 @@ public class DistrictEntity implements Serializable{
 	private String disCode;
 	private String disNameTh;
 	private String disNameEng;
+	private Integer pvnId;
 	
 	//GET-SET
 	public Integer getDisID() {
@@ -42,6 +43,12 @@ public class DistrictEntity implements Serializable{
 	}
 	public void setDisNameEng(String disNameEng) {
 		this.disNameEng = disNameEng;
+	}
+	public Integer getPvnId() {
+		return pvnId;
+	}
+	public void setPvnId(Integer pvnId) {
+		this.pvnId = pvnId;
 	}
 	
 	

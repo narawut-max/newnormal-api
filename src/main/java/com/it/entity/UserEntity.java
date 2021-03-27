@@ -1,6 +1,7 @@
 package com.it.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ public class UserEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String user_id;
+	private String userId;
 	private String userUsername;
 	private String userPassword;
 	private String userCardId;
@@ -21,7 +22,7 @@ public class UserEntity implements Serializable{
 	private String userFirstname;
 	private String userLastname;
 	private String userGender;
-	private String userBirthday;
+	private Date userBirthday;
 	private String userBlood;
 	private String userDisease;
 	private String userAllergy;
@@ -33,13 +34,12 @@ public class UserEntity implements Serializable{
 	private String userEmail;
 	private String userStatus;
 	private String userAddrass;
-	
-	//GET-SET
-	public String getUser_id() {
-		return user_id;
+	private String roleId;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getUserUsername() {
 		return userUsername;
@@ -83,10 +83,10 @@ public class UserEntity implements Serializable{
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}
-	public String getUserBirthday() {
+	public Date getUserBirthday() {
 		return userBirthday;
 	}
-	public void setUserBirthday(String userBirthday) {
+	public void setUserBirthday(Date userBirthday) {
 		this.userBirthday = userBirthday;
 	}
 	public String getUserBlood() {
@@ -154,6 +154,12 @@ public class UserEntity implements Serializable{
 	}
 	public void setUserAddrass(String userAddrass) {
 		this.userAddrass = userAddrass;
+	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 	
 	
