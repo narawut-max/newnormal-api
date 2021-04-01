@@ -13,18 +13,18 @@ public class DistrictEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer disID;
+	private Integer disId;
 	private String disCode;
 	private String disNameTh;
 	private String disNameEng;
 	private Integer pvnId;
 	
 	//GET-SET
-	public Integer getDisID() {
-		return disID;
+	public Integer getDisId() {
+		return disId;
 	}
-	public void setDisID(Integer disID) {
-		this.disID = disID;
+	public void setDisId(Integer disId) {
+		this.disId = disId;
 	}
 	public String getDisCode() {
 		return disCode;

@@ -1,7 +1,6 @@
 package com.it.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +21,7 @@ public class UserEntity implements Serializable{
 	private String userFirstname;
 	private String userLastname;
 	private String userGender;
-	private Date userBirthday;
+	private String userBirthday;
 	private String userBlood;
 	private String userDisease;
 	private String userAllergy;
@@ -34,7 +33,10 @@ public class UserEntity implements Serializable{
 	private String userEmail;
 	private String userStatus;
 	private String userAddrass;
+	private String zipCode;
 	private String roleId;
+	
+	//Get-Set
 	public String getUserId() {
 		return userId;
 	}
@@ -83,10 +85,10 @@ public class UserEntity implements Serializable{
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}
-	public Date getUserBirthday() {
+	public String getUserBirthday() {
 		return userBirthday;
 	}
-	public void setUserBirthday(Date userBirthday) {
+	public void setUserBirthday(String userBirthday) {
 		this.userBirthday = userBirthday;
 	}
 	public String getUserBlood() {
@@ -155,6 +157,12 @@ public class UserEntity implements Serializable{
 	public void setUserAddrass(String userAddrass) {
 		this.userAddrass = userAddrass;
 	}
+	public String getZipCode() {
+		return zipCode;
+	}
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 	public String getRoleId() {
 		return roleId;
 	}
@@ -163,7 +171,4 @@ public class UserEntity implements Serializable{
 	}
 	
 	
-	
-	
-
 }

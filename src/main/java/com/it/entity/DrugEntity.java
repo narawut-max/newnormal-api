@@ -2,7 +2,6 @@ package com.it.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,8 +18,8 @@ public class DrugEntity implements Serializable{
 	private String drugName;
 	private String drugTrademark;
 	private String drugActive;
-	private Date drugMfg;
-	private Date drugExp;
+	private String drugMfg;
+	private String drugExp;
 	private BigDecimal drugPrice;
 	private String drugAmount;
 	private String ctgId;
@@ -48,16 +47,16 @@ public class DrugEntity implements Serializable{
 	public void setDrugActive(String drugActive) {
 		this.drugActive = drugActive;
 	}
-	public Date getDrugMfg() {
+	public String getDrugMfg() {
 		return drugMfg;
 	}
-	public void setDrugMfg(Date drugMfg) {
+	public void setDrugMfg(String drugMfg) {
 		this.drugMfg = drugMfg;
 	}
-	public Date getDrugExp() {
+	public String getDrugExp() {
 		return drugExp;
 	}
-	public void setDrugExp(Date drugExp) {
+	public void setDrugExp(String drugExp) {
 		this.drugExp = drugExp;
 	}
 	public BigDecimal getDrugPrice() {
@@ -78,7 +77,6 @@ public class DrugEntity implements Serializable{
 	public void setCtgId(String ctgId) {
 		this.ctgId = ctgId;
 	}
-	
 	
 	
 	

@@ -13,18 +13,18 @@ public class SubdistrictEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer sdtID;
+	private Integer sdtId;
 	private String zipCode;
 	private String sdtNameTh;
 	private String sdtNameEng;
-	private Integer disID;
+	private Integer disId;
 	
-	//GET-SET
-	public Integer getSdtID() {
-		return sdtID;
+	//Get-Set
+	public Integer getSdtId() {
+		return sdtId;
 	}
-	public void setSdtID(Integer sdtID) {
-		this.sdtID = sdtID;
+	public void setSdtId(Integer sdtId) {
+		this.sdtId = sdtId;
 	}
 	public String getZipCode() {
 		return zipCode;
@@ -44,11 +44,11 @@ public class SubdistrictEntity implements Serializable{
 	public void setSdtNameEng(String sdtNameEng) {
 		this.sdtNameEng = sdtNameEng;
 	}
-	public Integer getDisID() {
-		return disID;
+	public Integer getDisId() {
+		return disId;
 	}
-	public void setDisID(Integer disID) {
-		this.disID = disID;
+	public void setDisId(Integer disId) {
+		this.disId = disId;
 	}
 	
 	
