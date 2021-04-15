@@ -14,35 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.it.entity.UserEntity;
 import com.it.repository.UserRepository;
+import com.it.utils.PasswordEncryptorUtils;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@GetMapping("/users")
-	public ResponseEntity<List<UserEntity>> getAllUsers(){
+	public ResponseEntity<List<UserEntity>> getAllUsers() {
 		return ResponseEntity.ok(userRepository.findAll());
 	}
-	
+
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<UserEntity> getUserByUserId(@PathVariable("userId") String userId) {
 		Optional<UserEntity> entity = userRepository.findById(userId);
 		if (entity.isPresent()) {
 			return ResponseEntity.ok(entity.get());
-		}else {
+		} else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
-	
+
 	@PostMapping("/users/save")
-	public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity request){
+	public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity request) {
 		if (request != null) {
 			UserEntity entity = new UserEntity();
 			entity.setUserId(request.getUserId());
 			entity.setUserUsername(request.getUserUsername());
-			entity.setUserPassword(request.getUserPassword());
+			entity.setUserPassword(PasswordEncryptorUtils.passwordEncryptor(request.getUserPassword()));
 			entity.setUserCardId(request.getUserCardId());
 			entity.setUserTitle(request.getUserTitle());
 			entity.setUserFirstname(request.getUserFirstname());
@@ -63,19 +64,19 @@ public class UserController {
 			entity.setZipCode(request.getZipCode());
 			entity.setRoleId(request.getRoleId());
 			return ResponseEntity.ok(userRepository.save(entity));
-		}else {
+		} else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
-	
+
 	@PostMapping("/users/update")
-	public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity request){
+	public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity request) {
 		if (request.getUserId() != null) {
 			Optional<UserEntity> entity = userRepository.findById(request.getUserId());
 			if (entity.isPresent()) {
 				UserEntity updateEntity = entity.get();
 				updateEntity.setUserUsername(request.getUserUsername());
-				updateEntity.setUserPassword(request.getUserPassword());
+				// updateEntity.setUserPassword(request.getUserPassword()); not update password
 				updateEntity.setUserCardId(request.getUserCardId());
 				updateEntity.setUserTitle(request.getUserTitle());
 				updateEntity.setUserFirstname(request.getUserFirstname());
@@ -96,18 +97,18 @@ public class UserController {
 				updateEntity.setZipCode(request.getZipCode());
 				updateEntity.setRoleId(request.getRoleId());
 				return ResponseEntity.ok(userRepository.save(updateEntity));
-			}else {
+			} else {
 				return ResponseEntity.badRequest().body(null);
 			}
-		}else {
+		} else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
-	
+
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<String> deleteUserByUserId(@PathVariable("userId") String userId) {
 		userRepository.deleteById(userId);
 		return ResponseEntity.ok("SUCCESS");
 	}
-	
-}//end
+
+}// end
