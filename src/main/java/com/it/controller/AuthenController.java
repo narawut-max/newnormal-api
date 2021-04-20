@@ -2,6 +2,7 @@ package com.it.controller;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class AuthenController {
 		if (ObjectUtils.isNotEmpty(entity) && PasswordEncryptorUtils.checkPassword(request.getPassword(), entity.getUserPassword())) {
 			return ResponseEntity.ok(entity);
 		} else {
-			return ResponseEntity.badRequest().body(null);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 	}
 
@@ -36,7 +37,7 @@ public class AuthenController {
 		if (ObjectUtils.isNotEmpty(entity) && PasswordEncryptorUtils.checkPassword(request.getPassword(), entity.getUserPassword())) {
 			return ResponseEntity.ok(entity);
 		} else {
-			return ResponseEntity.badRequest().body(null);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 	}
 
@@ -46,7 +47,7 @@ public class AuthenController {
 		if (ObjectUtils.isNotEmpty(entity)) {
 			return ResponseEntity.ok(entity);
 		} else {
-			return ResponseEntity.badRequest().body(null);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 	}
 
