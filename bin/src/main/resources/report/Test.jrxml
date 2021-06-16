@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Test" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="33771575-81b7-4ab1-b0a8-9655e8a6da2d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="TEST" class="java.lang.String"/>
+	<parameter name="NAME" class="java.lang.String"/>
+	<parameter name="LAST_NAME" class="java.lang.String"/>
+	<parameter name="GENDER" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="37" width="100" height="30" uuid="e61d9382-6fc8-4ca3-8342-4e3efb5f1c45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TEST นาย]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="37" width="100" height="30" uuid="008eb7b3-7dbd-422a-986c-b03cd0f458da"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TEST}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="123" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="30" uuid="6ba315b6-8f6e-4e04-989e-400f38df627a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="30" uuid="41353c70-7211-4ebc-ad14-e77bebe4119d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{LAST_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="30" uuid="e2cb7599-8a70-4076-9612-d6e2a1471737"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{GENDER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="120" y="15" width="100" height="30" uuid="a1b38531-89a1-4e7d-b063-4e3b9ac0726a"/>
+				<text><![CDATA[test]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
