@@ -22,7 +22,7 @@ public class BilldrugController {
 	@Autowired
 	private BilldrugRepository billdrugRepository;
 	
-	@GetMapping("/billdrug")
+	@GetMapping("/billdrugs")
 	public ResponseEntity<List<BilldrugEntity>> getAllBilldrugs(){
 		return ResponseEntity.ok(billdrugRepository.findAll());
 	}
