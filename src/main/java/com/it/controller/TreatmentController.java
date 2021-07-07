@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.entity.BilldrugEntity;
+import com.it.entity.BookingEntity;
 import com.it.entity.TreatmentEntity;
+import com.it.entity.UserEntity;
+import com.it.model.BilldrugResponse;
+import com.it.model.BookingResponse;
+import com.it.model.TreatmentResponse;
+import com.it.model.UserResponse;
+import com.it.repository.BilldrugRepository;
+import com.it.repository.BookingRepository;
 import com.it.repository.TreatmentRepository;
+import com.it.repository.UserRepository;
 
 @RestController
 public class TreatmentController {
@@ -23,16 +36,57 @@ public class TreatmentController {
 	@Autowired
 	private TreatmentRepository treatmentRepository;
 	
+	@Autowired
+	private BookingRepository bookingRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private BilldrugRepository billdrugRepository;
+	
+	@Autowired
+    private ModelMapper modelMapper;
+	
+	private TreatmentResponse convertToResponse(TreatmentEntity entity) {
+		TreatmentResponse response = modelMapper.map(entity, TreatmentResponse.class);
+		
+		//set user
+		Optional<UserEntity> userEntity = userRepository.findById(entity.getUserId());
+		if (userEntity.isPresent()) {
+			response.setUser(modelMapper.map(userEntity.get(), UserResponse.class));
+		}
+		
+		//set bill drug
+		Optional<BilldrugEntity> billEntity = billdrugRepository.findById(entity.getBillId());
+		if (billEntity.isPresent()) {
+			response.setBilldrug(modelMapper.map(billEntity.get(), BilldrugResponse.class));
+		}
+		
+		//set booking
+		Optional<BookingEntity> bookingEntity = bookingRepository.findById(entity.getBkId());
+		if (bookingEntity.isPresent()) {
+			response.setBooking(modelMapper.map(bookingEntity.get(), BookingResponse.class));
+		}
+
+		return response;
+	}
+	
 	@GetMapping("/treatments")
-	public ResponseEntity<List<TreatmentEntity>> getAllTreatment(){
-		return ResponseEntity.ok(treatmentRepository.findAll());
+	public ResponseEntity<List<TreatmentResponse>> getAllTreatment(){
+		List<TreatmentEntity> entities = treatmentRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 	}
 	
 	@GetMapping("/treatments/{tmId}")
-	public ResponseEntity<TreatmentEntity> getTreatmentByTmId(@PathVariable("tmId") String tmId){
+	public ResponseEntity<TreatmentResponse> getTreatmentByTmId(@PathVariable("tmId") String tmId){
 		Optional<TreatmentEntity> entity = treatmentRepository.findById(tmId);
 		if (entity.isPresent()) {
-			return ResponseEntity.ok(entity.get());
+			return ResponseEntity.ok(convertToResponse(entity.get()));
 		}else {
 			return ResponseEntity.badRequest().body(null);
 		}

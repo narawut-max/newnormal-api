@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.it.entity.BookingEntity;
+import com.it.model.BookingResponse;
 import com.it.repository.BookingRepository;
 
 @RestController
@@ -22,16 +27,28 @@ public class BookingController {
 	@Autowired
 	private BookingRepository bookingRepository;
 	
+	@Autowired
+    private ModelMapper modelMapper;
+	
+	private BookingResponse convertToResponse(BookingEntity entity) {
+		return modelMapper.map(entity, BookingResponse.class);
+	}
+	
 	@GetMapping("/bookings")
-	public ResponseEntity<List<BookingEntity>> getAllBookings() {
-		return ResponseEntity.ok(bookingRepository.findAll());
+	public ResponseEntity<List<BookingResponse>> getAllBookings() {
+		List<BookingEntity> entities = bookingRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 	}
 	
 	@GetMapping("/bookings/{bkId}")
-	public ResponseEntity<BookingEntity> getBilldrugByBillId(@PathVariable("bkId") Integer bkId){
+	public ResponseEntity<BookingResponse> getBilldrugByBillId(@PathVariable("bkId") Integer bkId){
 		Optional<BookingEntity> entity = bookingRepository.findById(bkId);
 		if(entity.isPresent()) {
-			return ResponseEntity.ok(entity.get());
+			return ResponseEntity.ok(convertToResponse(entity.get()));
 		} else {
 			return ResponseEntity.badRequest().body(null);
 		}
