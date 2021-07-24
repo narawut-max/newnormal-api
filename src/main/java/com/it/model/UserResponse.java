@@ -15,7 +15,7 @@ public class UserResponse implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String userId;
+	private Integer userId;
 	private String userUsername;
 	private String userPassword;
 	private String userCardId;
@@ -35,6 +35,8 @@ public class UserResponse implements Serializable {
 	private String userEmail;
 	private String userStatus;
 	private String userAddrass;
+	private String tmId;
 	private String zipCode;
 	private String roleId;
+	private TreatmentResponse treatment;
 }

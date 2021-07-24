@@ -3,6 +3,7 @@ package com.it.controller;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +14,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.model.TreatmentResponse;
+import com.it.model.UserResponse;
+import com.it.repository.TreatmentRepository;
 import com.it.repository.UserRepository;
 import com.it.utils.PasswordEncryptorUtils;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @RestController
 public class UserController {
 	
-	@Autowired
-    private ModelMapper modelMapper;
-
+	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TreatmentRepository treatmentRepository;
 
+	@Autowired
+    private ModelMapper modelMapper;
+	
+	private UserResponse convertToResponse(UserEntity entity) {
+		UserResponse response = modelMapper.map(entity, UserResponse.class);
+		
+		//set treatment
+		Optional<TreatmentEntity> treatmentEntity = treatmentRepository.findById(entity.getTmId());
+		if (treatmentEntity.isPresent()) {
+			response.setTreatment(modelMapper.map(treatmentEntity.get(), TreatmentResponse.class));
+		}
+		
+		return response;
+	}
+	
 	@GetMapping("/users")
 	public ResponseEntity<List<UserEntity>> getAllUsers() {
 		return ResponseEntity.ok(userRepository.findAll());
@@ -33,7 +57,7 @@ public class UserController {
 
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<UserEntity> getUserByUserId(@PathVariable("userId") String userId) {
-		Optional<UserEntity> entity = userRepository.findById(userId);
+		Optional<UserEntity> entity = userRepository.findById(Integer.valueOf(userId));
 		if (entity.isPresent()) {
 			return ResponseEntity.ok(entity.get());
 		} else {
@@ -44,6 +68,7 @@ public class UserController {
 	@PostMapping("/users/save")
 	public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity request) {
 		if (request != null) {
+			log.info("saveUser : " + request.toString());
 			UserEntity entity = new UserEntity();
 			entity.setUserId(request.getUserId());
 			entity.setUserUsername(request.getUserUsername());
@@ -65,6 +90,7 @@ public class UserController {
 			entity.setUserEmail(request.getUserEmail());
 			entity.setUserStatus(request.getUserStatus());
 			entity.setUserAddrass(request.getUserAddrass());
+			entity.setTmId(request.getTmId());
 			entity.setZipCode(request.getZipCode());
 			entity.setRoleId(request.getRoleId());
 			return ResponseEntity.ok(userRepository.save(entity));
@@ -98,6 +124,7 @@ public class UserController {
 				updateEntity.setUserEmail(request.getUserEmail());
 				updateEntity.setUserStatus(request.getUserStatus());
 				updateEntity.setUserAddrass(request.getUserAddrass());
+				updateEntity.setTmId(request.getTmId());
 				updateEntity.setZipCode(request.getZipCode());
 				updateEntity.setRoleId(request.getRoleId());
 				return ResponseEntity.ok(userRepository.save(updateEntity));
@@ -111,7 +138,7 @@ public class UserController {
 
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<String> deleteUserByUserId(@PathVariable("userId") String userId) {
-		userRepository.deleteById(userId);
+		userRepository.deleteById(Integer.valueOf(userId));
 		return ResponseEntity.ok("SUCCESS");
 	}
 

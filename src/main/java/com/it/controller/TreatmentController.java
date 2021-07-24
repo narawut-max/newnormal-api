@@ -52,7 +52,7 @@ public class TreatmentController {
 		TreatmentResponse response = modelMapper.map(entity, TreatmentResponse.class);
 		
 		//set user
-		Optional<UserEntity> userEntity = userRepository.findById(entity.getUserId());
+		Optional<UserEntity> userEntity = userRepository.findById(Integer.valueOf(entity.getUserId()));
 		if (userEntity.isPresent()) {
 			response.setUser(modelMapper.map(userEntity.get(), UserResponse.class));
 		}
