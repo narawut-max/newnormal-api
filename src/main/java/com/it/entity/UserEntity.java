@@ -38,6 +38,7 @@ public class UserEntity implements Serializable{
 	private String userAllergy;
 	private String userDepartment;
 	private String userGraduate;
+	private String userProfessionId;
 	private String userProfession;
 	private String userPosition;
 	private String userPhone;

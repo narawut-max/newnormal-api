@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.entity.RoleEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.model.RoleResponse;
 import com.it.model.TreatmentResponse;
 import com.it.model.UserResponse;
+import com.it.repository.RoleRepository;
 import com.it.repository.TreatmentRepository;
 import com.it.repository.UserRepository;
 import com.it.utils.PasswordEncryptorUtils;
@@ -33,18 +36,18 @@ public class UserController {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private TreatmentRepository treatmentRepository;
-
+	private RoleRepository roleRepository;
+	
 	@Autowired
     private ModelMapper modelMapper;
 	
-	private UserResponse convertToResponse(UserEntity entity) {
+	private UserResponse convertToRespons(UserEntity entity) {
 		UserResponse response = modelMapper.map(entity, UserResponse.class);
 		
 		//set treatment
-		Optional<TreatmentEntity> treatmentEntity = treatmentRepository.findById(entity.getTmId());
-		if (treatmentEntity.isPresent()) {
-			response.setTreatment(modelMapper.map(treatmentEntity.get(), TreatmentResponse.class));
+		Optional<RoleEntity> roleEntity = roleRepository.findById(entity.getRoleId());
+		if (roleEntity.isPresent()) {
+			response.setRole(modelMapper.map(roleEntity.get(), RoleResponse.class));
 		}
 		
 		return response;
@@ -84,6 +87,7 @@ public class UserController {
 			entity.setUserAllergy(request.getUserAllergy());
 			entity.setUserDepartment(request.getUserDepartment());
 			entity.setUserGraduate(request.getUserGraduate());
+			entity.setUserProfessionId(request.getUserProfessionId());
 			entity.setUserProfession(request.getUserProfession());
 			entity.setUserPosition(request.getUserPosition());
 			entity.setUserPhone(request.getUserPhone());
@@ -118,6 +122,7 @@ public class UserController {
 				updateEntity.setUserAllergy(request.getUserAllergy());
 				updateEntity.setUserDepartment(request.getUserDepartment());
 				updateEntity.setUserGraduate(request.getUserGraduate());
+				updateEntity.setUserProfessionId(request.getUserProfessionId());
 				updateEntity.setUserProfession(request.getUserProfession());
 				updateEntity.setUserPosition(request.getUserPosition());
 				updateEntity.setUserPhone(request.getUserPhone());

@@ -29,6 +29,7 @@ public class UserResponse implements Serializable {
 	private String userAllergy;
 	private String userDepartment;
 	private String userGraduate;
+	private String userProfessionId;
 	private String userProfession;
 	private String userPosition;
 	private String userPhone;
@@ -39,4 +40,5 @@ public class UserResponse implements Serializable {
 	private String zipCode;
 	private String roleId;
 	private TreatmentResponse treatment;
+	private RoleResponse role;
 }

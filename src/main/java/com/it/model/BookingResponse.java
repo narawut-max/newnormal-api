@@ -18,9 +18,11 @@ public class BookingResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer bkId;
+	private String bkQueue;
 	private Date bkDate;
 	private Timestamp bkTime;
 	private String bkSymptom;
 	private String bkStatus;
+	private String bkProcess;
 	private String tmId;
 }

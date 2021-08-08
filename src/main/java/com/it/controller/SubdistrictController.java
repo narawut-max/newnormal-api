@@ -56,9 +56,9 @@ public class SubdistrictController {
 					response.setProvince(modelMapper.map(provinceEntity.get(), ProvinceResponse.class));
 				}
 			}
-		}
+		}	
+		return response;	
 		
-		return response;		
 	}
 	
 	@GetMapping("/subdistricts")

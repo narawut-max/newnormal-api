@@ -82,7 +82,5 @@ public class TreatmentEntity implements Serializable{
 		this.billId = billId;
 	}
 	
-	
-	
 
 }

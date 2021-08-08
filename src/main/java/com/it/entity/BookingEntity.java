@@ -16,18 +16,24 @@ public class BookingEntity implements Serializable{
 	
 	@Id
 	private Integer bkId;
+	private String bkQueue;
 	private Date bkDate;
 	private Timestamp bkTime;
 	private String bkSymptom;
 	private String bkStatus;
+	private String bkProcess;
 	private String tmId;
-	
-	//GET-SET
 	public Integer getBkId() {
 		return bkId;
 	}
 	public void setBkId(Integer bkId) {
 		this.bkId = bkId;
+	}
+	public String getBkQueue() {
+		return bkQueue;
+	}
+	public void setBkQueue(String bkQueue) {
+		this.bkQueue = bkQueue;
 	}
 	public Date getBkDate() {
 		return bkDate;
@@ -53,6 +59,12 @@ public class BookingEntity implements Serializable{
 	public void setBkStatus(String bkStatus) {
 		this.bkStatus = bkStatus;
 	}
+	public String getBkProcess() {
+		return bkProcess;
+	}
+	public void setBkProcess(String bkProcess) {
+		this.bkProcess = bkProcess;
+	}
 	public String getTmId() {
 		return tmId;
 	}
@@ -60,5 +72,6 @@ public class BookingEntity implements Serializable{
 		this.tmId = tmId;
 	}
 	
+	//GET-SET
 	
 }

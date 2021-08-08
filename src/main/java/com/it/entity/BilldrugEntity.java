@@ -18,7 +18,9 @@ public class BilldrugEntity implements Serializable{
 	private Integer billId;
 	private Date billDate;
 	private Timestamp billTime;
+	private String billNext;
 	private String drugId;
+	private String tmId;
 	
 	//GET-SET
 	public Integer getBillId() {
@@ -39,11 +41,23 @@ public class BilldrugEntity implements Serializable{
 	public void setBillTime(Timestamp billTime) {
 		this.billTime = billTime;
 	}
+	public String getBillNext() {
+		return billNext;
+	}
+	public void setBillNext(String billNext) {
+		this.billNext = billNext;
+	}
 	public String getDrugId() {
 		return drugId;
 	}
 	public void setDrugId(String drugId) {
 		this.drugId = drugId;
+	}
+	public String getTmId() {
+		return tmId;
+	}
+	public void setTmId(String tmId) {
+		this.tmId = tmId;
 	}
 	
 }

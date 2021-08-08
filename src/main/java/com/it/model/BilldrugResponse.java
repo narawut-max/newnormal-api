@@ -20,5 +20,8 @@ public class BilldrugResponse implements Serializable {
 	private Integer billId;
 	private Date billDate;
 	private Timestamp billTime;
+	private String billNext;
 	private String drugId;
+	private String tmId;
+	private TreatmentResponse treatment;
 }

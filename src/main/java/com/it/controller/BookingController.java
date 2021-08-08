@@ -45,7 +45,7 @@ public class BookingController {
 	}
 	
 	@GetMapping("/bookings/{bkId}")
-	public ResponseEntity<BookingResponse> getBilldrugByBillId(@PathVariable("bkId") Integer bkId){
+	public ResponseEntity<BookingResponse> getBilldrugByBkId(@PathVariable("bkId") Integer bkId){
 		Optional<BookingEntity> entity = bookingRepository.findById(bkId);
 		if(entity.isPresent()) {
 			return ResponseEntity.ok(convertToResponse(entity.get()));
@@ -59,10 +59,12 @@ public class BookingController {
 		if (request !=null) {
 			BookingEntity entity = new BookingEntity();
 			entity.setTmId(request.getTmId());
+			entity.setBkQueue(request.getBkQueue());
 			entity.setBkDate(request.getBkDate() != null ? entity.getBkDate() : new Date());
 			entity.setBkTime(request.getBkTime() != null ? entity.getBkTime() : Timestamp.valueOf(LocalDateTime.now()));
 			entity.setBkSymptom(request.getBkSymptom());
 			entity.setBkStatus(request.getBkStatus());
+			entity.setBkProcess(request.getBkProcess());
 			return ResponseEntity.ok(bookingRepository.save(entity));
 		}else {
 			return ResponseEntity.badRequest().body(null);
@@ -76,8 +78,10 @@ public class BookingController {
 			if (entity.isPresent()) {
 				BookingEntity updateEntity = entity.get();
 				updateEntity.setTmId(request.getTmId());
+				updateEntity.setBkQueue(request.getBkQueue());
 				updateEntity.setBkSymptom(request.getBkSymptom());
 				updateEntity.setBkStatus(request.getBkStatus());
+				updateEntity.setBkProcess(request.getBkProcess());
 				if (request.getBkDate() != null) {
 					updateEntity.setBkDate(request.getBkDate());
 				}
