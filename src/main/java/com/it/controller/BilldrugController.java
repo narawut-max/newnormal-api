@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.it.entity.BilldrugEntity;
 import com.it.entity.TreatmentEntity;
+import com.it.entity.UserEntity;
 import com.it.model.BilldrugResponse;
 import com.it.model.TreatmentResponse;
+import com.it.model.UserResponse;
 import com.it.repository.BilldrugRepository;
 import com.it.repository.TreatmentRepository;
+import com.it.repository.UserRepository;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -37,15 +40,23 @@ public class BilldrugController {
 	private TreatmentRepository treatmentRepository;
 	
 	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
     private ModelMapper modelMapper;
 	
 	private BilldrugResponse convertToResponse(BilldrugEntity entity) {
 		BilldrugResponse response = modelMapper.map(entity, BilldrugResponse.class);
 		
-		//set bill drug
+		//set Treatment
 		Optional<TreatmentEntity> treatEntity = treatmentRepository.findById(entity.getTmId());
 		if (treatEntity.isPresent()) {
-			response.setTreatment(modelMapper.map(treatEntity.get(), TreatmentResponse.class));
+			TreatmentResponse treatmentResponse = modelMapper.map(treatEntity.get(), TreatmentResponse.class);
+			Optional<UserEntity> userEntity = userRepository.findById(Integer.parseInt(treatEntity.get().getUserId()));
+			if (userEntity.isPresent()) {
+				treatmentResponse.setUser(modelMapper.map(userEntity.get(), UserResponse.class));
+			}
+			response.setTreatment(treatmentResponse);
 		}
 		
 		return response;

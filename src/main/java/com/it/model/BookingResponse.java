@@ -25,4 +25,5 @@ public class BookingResponse implements Serializable {
 	private String bkStatus;
 	private String bkProcess;
 	private String tmId;
+	private TreatmentResponse treatment;
 }
