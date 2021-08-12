@@ -2,8 +2,9 @@ package com.it.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-
+import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,6 @@ import com.it.model.RoleResponse;
 import com.it.model.TreatmentResponse;
 import com.it.model.UserResponse;
 import com.it.repository.RoleRepository;
-import com.it.repository.TreatmentRepository;
 import com.it.repository.UserRepository;
 import com.it.utils.PasswordEncryptorUtils;
 
@@ -41,7 +41,7 @@ public class UserController {
 	@Autowired
     private ModelMapper modelMapper;
 	
-	private UserResponse convertToRespons(UserEntity entity) {
+	private UserResponse convertToResponse(UserEntity entity) {
 		UserResponse response = modelMapper.map(entity, UserResponse.class);
 		
 		//set treatment
@@ -54,16 +54,21 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	public ResponseEntity<List<UserEntity>> getAllUsers() {
-		return ResponseEntity.ok(userRepository.findAll());
+	public ResponseEntity<List<UserResponse>> getAllUsers(){
+		List<UserEntity> entities = userRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 	}
 
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<UserEntity> getUserByUserId(@PathVariable("userId") String userId) {
-		Optional<UserEntity> entity = userRepository.findById(Integer.valueOf(userId));
+	public ResponseEntity<UserResponse> getUserByUserId(@PathVariable("userId") Integer userId){
+		Optional<UserEntity> entity = userRepository.findById(userId);
 		if (entity.isPresent()) {
-			return ResponseEntity.ok(entity.get());
-		} else {
+			return ResponseEntity.ok(convertToResponse(entity.get()));
+		}else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
@@ -77,6 +82,7 @@ public class UserController {
 			entity.setUserUsername(request.getUserUsername());
 			entity.setUserPassword(PasswordEncryptorUtils.passwordEncryptor(request.getUserPassword()));
 			entity.setUserCardId(request.getUserCardId());
+			entity.setUserHnId(request.getUserHnId());
 			entity.setUserTitle(request.getUserTitle());
 			entity.setUserFirstname(request.getUserFirstname());
 			entity.setUserLastname(request.getUserLastname());
@@ -94,7 +100,6 @@ public class UserController {
 			entity.setUserEmail(request.getUserEmail());
 			entity.setUserStatus(request.getUserStatus());
 			entity.setUserAddrass(request.getUserAddrass());
-			entity.setTmId(request.getTmId());
 			entity.setZipCode(request.getZipCode());
 			entity.setRoleId(request.getRoleId());
 			return ResponseEntity.ok(userRepository.save(entity));
@@ -112,6 +117,7 @@ public class UserController {
 				updateEntity.setUserUsername(request.getUserUsername());
 				// updateEntity.setUserPassword(request.getUserPassword()); not update password
 				updateEntity.setUserCardId(request.getUserCardId());
+				updateEntity.setUserHnId(request.getUserHnId());
 				updateEntity.setUserTitle(request.getUserTitle());
 				updateEntity.setUserFirstname(request.getUserFirstname());
 				updateEntity.setUserLastname(request.getUserLastname());
@@ -129,7 +135,6 @@ public class UserController {
 				updateEntity.setUserEmail(request.getUserEmail());
 				updateEntity.setUserStatus(request.getUserStatus());
 				updateEntity.setUserAddrass(request.getUserAddrass());
-				updateEntity.setTmId(request.getTmId());
 				updateEntity.setZipCode(request.getZipCode());
 				updateEntity.setRoleId(request.getRoleId());
 				return ResponseEntity.ok(userRepository.save(updateEntity));

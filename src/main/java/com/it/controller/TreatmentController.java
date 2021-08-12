@@ -83,7 +83,7 @@ public class TreatmentController {
 	}
 	
 	@GetMapping("/treatments/{tmId}")
-	public ResponseEntity<TreatmentResponse> getTreatmentByTmId(@PathVariable("tmId") String tmId){
+	public ResponseEntity<TreatmentResponse> getTreatmentByTmId(@PathVariable("tmId") Integer tmId){
 		Optional<TreatmentEntity> entity = treatmentRepository.findById(tmId);
 		if (entity.isPresent()) {
 			return ResponseEntity.ok(convertToResponse(entity.get()));

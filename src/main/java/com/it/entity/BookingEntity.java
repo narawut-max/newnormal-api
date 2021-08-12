@@ -22,7 +22,10 @@ public class BookingEntity implements Serializable{
 	private String bkSymptom;
 	private String bkStatus;
 	private String bkProcess;
-	private String tmId;
+	private Integer tmId;
+	
+	//GET-SET
+	
 	public Integer getBkId() {
 		return bkId;
 	}
@@ -65,13 +68,11 @@ public class BookingEntity implements Serializable{
 	public void setBkProcess(String bkProcess) {
 		this.bkProcess = bkProcess;
 	}
-	public String getTmId() {
+	public Integer getTmId() {
 		return tmId;
 	}
-	public void setTmId(String tmId) {
+	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
 	}
 	
-	//GET-SET
-	
-}
+	}

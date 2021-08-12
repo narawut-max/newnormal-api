@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.it.entity.TreatmentEntity;
 
-public interface TreatmentRepository extends JpaRepository<TreatmentEntity, String>{
+public interface TreatmentRepository extends JpaRepository<TreatmentEntity, Integer>{
 
 }

@@ -19,6 +19,7 @@ public class UserResponse implements Serializable {
 	private String userUsername;
 	private String userPassword;
 	private String userCardId;
+	private String userHnId;
 	private String userTitle;
 	private String userFirstname;
 	private String userLastname;
@@ -36,7 +37,6 @@ public class UserResponse implements Serializable {
 	private String userEmail;
 	private String userStatus;
 	private String userAddrass;
-	private String tmId;
 	private String zipCode;
 	private String roleId;
 	private TreatmentResponse treatment;

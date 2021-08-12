@@ -18,7 +18,7 @@ public class TreatmentResponse implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String tmId;
+	private Integer tmId;
 	private Date tmDate;
 	private Timestamp tmTime;
 	private BigDecimal tmMoney;

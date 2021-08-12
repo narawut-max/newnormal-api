@@ -16,7 +16,7 @@ public class TreatmentEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String tmId;
+	private Integer tmId;
 	private Date tmDate;
 	private Timestamp tmTime;
 	private BigDecimal tmMoney;
@@ -27,10 +27,10 @@ public class TreatmentEntity implements Serializable{
 	private Integer billId;
 	
 	//GET-SET
-	public String getTmId() {
+	public Integer getTmId() {
 		return tmId;
 	}
-	public void setTmId(String tmId) {
+	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
 	}
 	public Date getTmDate() {

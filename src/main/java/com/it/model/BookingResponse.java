@@ -1,4 +1,4 @@
-package com.it.model;
+ package com.it.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -24,6 +24,6 @@ public class BookingResponse implements Serializable {
 	private String bkSymptom;
 	private String bkStatus;
 	private String bkProcess;
-	private String tmId;
+	private Integer tmId;
 	private TreatmentResponse treatment;
 }

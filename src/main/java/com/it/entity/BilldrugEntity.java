@@ -20,8 +20,7 @@ public class BilldrugEntity implements Serializable{
 	private Timestamp billTime;
 	private String billNext;
 	private String drugId;
-	private String tmId;
-	
+	private Integer tmId;
 	//GET-SET
 	public Integer getBillId() {
 		return billId;
@@ -53,10 +52,10 @@ public class BilldrugEntity implements Serializable{
 	public void setDrugId(String drugId) {
 		this.drugId = drugId;
 	}
-	public String getTmId() {
+	public Integer getTmId() {
 		return tmId;
 	}
-	public void setTmId(String tmId) {
+	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
 	}
 	
