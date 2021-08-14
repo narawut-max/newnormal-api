@@ -92,7 +92,6 @@ public class BookingController {
 			entity.setBkTime(request.getBkTime() != null ? entity.getBkTime() : Timestamp.valueOf(LocalDateTime.now()));
 			entity.setBkSymptom(request.getBkSymptom());
 			entity.setBkStatus(request.getBkStatus());
-			entity.setBkProcess(request.getBkProcess());
 			return ResponseEntity.ok(bookingRepository.save(entity));
 		}else {
 			return ResponseEntity.badRequest().body(null);
@@ -109,7 +108,6 @@ public class BookingController {
 				updateEntity.setBkQueue(request.getBkQueue());
 				updateEntity.setBkSymptom(request.getBkSymptom());
 				updateEntity.setBkStatus(request.getBkStatus());
-				updateEntity.setBkProcess(request.getBkProcess());
 				if (request.getBkDate() != null) {
 					updateEntity.setBkDate(request.getBkDate());
 				}

@@ -24,6 +24,7 @@ public class TreatmentResponse implements Serializable {
 	private BigDecimal tmMoney;
 	private String tmSlip;
 	private String tmStatus;
+	private String tmProcess;
 	private String userId;
 	private Integer bkId;
 	private Integer billId;

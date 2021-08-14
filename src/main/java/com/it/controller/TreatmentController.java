@@ -102,6 +102,7 @@ public class TreatmentController {
 			entity.setTmMoney(request.getTmMoney());
 			entity.setTmSlip(request.getTmSlip());
 			entity.setTmStatus(request.getTmStatus());
+			entity.setTmProcess(request.getTmProcess());
 			entity.setUserId(request.getUserId());
 			entity.setBkId(request.getBkId());
 			entity.setBillId(request.getBillId());
@@ -120,6 +121,7 @@ public class TreatmentController {
 				updateEntity.setTmMoney(request.getTmMoney());
 				updateEntity.setTmSlip(request.getTmSlip());
 				updateEntity.setTmStatus(request.getTmStatus());
+				updateEntity.setTmProcess(request.getTmProcess());
 				updateEntity.setUserId(request.getUserId());
 				updateEntity.setBkId(request.getBkId());
 				updateEntity.setBillId(request.getBillId());

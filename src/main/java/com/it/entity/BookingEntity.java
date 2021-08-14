@@ -21,7 +21,6 @@ public class BookingEntity implements Serializable{
 	private Timestamp bkTime;
 	private String bkSymptom;
 	private String bkStatus;
-	private String bkProcess;
 	private Integer tmId;
 	
 	//GET-SET
@@ -61,12 +60,6 @@ public class BookingEntity implements Serializable{
 	}
 	public void setBkStatus(String bkStatus) {
 		this.bkStatus = bkStatus;
-	}
-	public String getBkProcess() {
-		return bkProcess;
-	}
-	public void setBkProcess(String bkProcess) {
-		this.bkProcess = bkProcess;
 	}
 	public Integer getTmId() {
 		return tmId;

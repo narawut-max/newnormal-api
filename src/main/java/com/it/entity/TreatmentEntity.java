@@ -22,6 +22,7 @@ public class TreatmentEntity implements Serializable{
 	private BigDecimal tmMoney;
 	private String tmSlip;
 	private String tmStatus;
+	private String tmProcess;
 	private String userId;
 	private Integer bkId;
 	private Integer billId;
@@ -63,6 +64,12 @@ public class TreatmentEntity implements Serializable{
 	public void setTmStatus(String tmStatus) {
 		this.tmStatus = tmStatus;
 	}
+	public String getTmProcess() {
+		return tmProcess;
+	}
+	public void setTmProcess(String tmProcess) {
+		this.tmProcess = tmProcess;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -82,5 +89,4 @@ public class TreatmentEntity implements Serializable{
 		this.billId = billId;
 	}
 	
-
 }
