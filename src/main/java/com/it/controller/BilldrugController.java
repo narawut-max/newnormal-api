@@ -88,7 +88,7 @@ public class BilldrugController {
 			log.info("saveBilldrug : " + request.toString());
 			BilldrugEntity entity = new BilldrugEntity();
 			entity.setBillId(request.getBillId());
-			entity.setDrugId(request.getDrugId());
+			//entity.setDrugId(request.getDrugId());
 			entity.setBillNext(request.getBillNext());
 			entity.setTmId(request.getTmId());
 			entity.setBillDate(entity.getBillDate() != null ? entity.getBillDate() : new Date());
@@ -106,7 +106,7 @@ public class BilldrugController {
 			if (entity.isPresent()) {
 				//set update data form request				
 				BilldrugEntity updateEntity = entity.get();
-				updateEntity.setDrugId(request.getDrugId());
+				//updateEntity.setDrugId(request.getDrugId());
 				updateEntity.setTmId(request.getTmId());
 				updateEntity.setBillNext(request.getBillNext());
 				if (request.getBillDate() != null) {

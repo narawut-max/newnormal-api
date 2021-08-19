@@ -3,6 +3,7 @@ package com.it.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,5 @@ public class BilldrugResponse implements Serializable {
 	private String drugId;
 	private Integer tmId;
 	private TreatmentResponse treatment;
+	private List<BilldrugDetailReponse> billdrugDetails;
 }

@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.it.service.ReportService;
@@ -35,6 +36,23 @@ public class ReportController {
 			if(out != null) {
 				response = new  ResponseEntity<>(new InputStreamResource(new ByteArrayInputStream(out.toByteArray())),
 						ReportUtils.createResponseHeader(MediaType.APPLICATION_PDF, "test.pdf", null),
+						HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			log.error("generateReport Error : {}" , e);
+		}
+		log.info("generateReport : End");
+		return response;
+	}
+	
+	@GetMapping(path = "/generateBilldrugReport")
+	public ResponseEntity<InputStreamResource> generateBilldrugReport(@RequestParam(name = "billId", required = true) Integer billId) throws IOException{
+		log.info("generateReport : Start :: billId : " + billId);
+		ResponseEntity<InputStreamResource> response = null;
+		try (ByteArrayOutputStream out = reportService.generateBilldrugReport(billId)){
+			if(out != null) {
+				response = new  ResponseEntity<>(new InputStreamResource(new ByteArrayInputStream(out.toByteArray())),
+						ReportUtils.createResponseHeader(MediaType.APPLICATION_PDF, "BilldrugReport.pdf", null),
 						HttpStatus.OK);
 			}
 		} catch (Exception e) {
