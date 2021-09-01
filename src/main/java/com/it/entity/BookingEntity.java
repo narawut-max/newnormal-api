@@ -8,12 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_booking")
-public class BookingEntity implements Serializable{
-	
+public class BookingEntity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	private Integer bkId;
 	private String bkQueue;
@@ -21,51 +30,5 @@ public class BookingEntity implements Serializable{
 	private Timestamp bkTime;
 	private String bkSymptom;
 	private String bkStatus;
-	private Integer tmId;
-	
-	//GET-SET
-	
-	public Integer getBkId() {
-		return bkId;
-	}
-	public void setBkId(Integer bkId) {
-		this.bkId = bkId;
-	}
-	public String getBkQueue() {
-		return bkQueue;
-	}
-	public void setBkQueue(String bkQueue) {
-		this.bkQueue = bkQueue;
-	}
-	public Date getBkDate() {
-		return bkDate;
-	}
-	public void setBkDate(Date bkDate) {
-		this.bkDate = bkDate;
-	}
-	public Timestamp getBkTime() {
-		return bkTime;
-	}
-	public void setBkTime(Timestamp bkTime) {
-		this.bkTime = bkTime;
-	}
-	public String getBkSymptom() {
-		return bkSymptom;
-	}
-	public void setBkSymptom(String bkSymptom) {
-		this.bkSymptom = bkSymptom;
-	}
-	public String getBkStatus() {
-		return bkStatus;
-	}
-	public void setBkStatus(String bkStatus) {
-		this.bkStatus = bkStatus;
-	}
-	public Integer getTmId() {
-		return tmId;
-	}
-	public void setTmId(Integer tmId) {
-		this.tmId = tmId;
-	}
-	
-	}
+
+}

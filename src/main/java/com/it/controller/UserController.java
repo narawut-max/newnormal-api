@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.custom.repository.CustomUserRepository;
 import com.it.entity.RoleEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
@@ -40,6 +44,9 @@ public class UserController {
 	
 	@Autowired
     private ModelMapper modelMapper;
+	
+	@Autowired
+	private CustomUserRepository customUserRepository;
 	
 	private UserResponse convertToResponse(UserEntity entity) {
 		UserResponse response = modelMapper.map(entity, UserResponse.class);
@@ -72,9 +79,49 @@ public class UserController {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
+	
+	@GetMapping("/users/by-user")
+	public ResponseEntity<List<UserResponse>> getUserByRoleId(@RequestParam(name = "roleId") Integer roleId) {
+		List<UserEntity> entities = userRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().filter(data -> (Integer.parseInt(data.getRoleId())) == roleId)
+					.map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 
+	}
+	
+//	@GetMapping("/users/by-Department")
+//	public ResponseEntity<List<UserResponse>> gettreatBydepartment(@RequestParam(name = "userDepartment") String userDepartment) {
+//		List<UserEntity> entities = userRepository.findAll();
+//		if (CollectionUtils.isNotEmpty(entities)) {
+//			return ResponseEntity.ok(entities.stream().filter(data -> data.getUserDepartment() == userDepartment)
+//					.map(this::convertToResponse).collect(Collectors.toList()));
+//		} else {
+//			return ResponseEntity.badRequest().body(null);
+//		}
+//
+//	}
+	
+	@GetMapping("/users/search-by-criteria")
+	public ResponseEntity<List<UserResponse>> getSearchUserByCriteria(
+			@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "userHnId", required =  false) String userHnId,
+			@RequestParam(name = "userCardId", required = false) String userCardId,
+			@RequestParam(name = "userFirstname", required =  false) String userFirstname,
+			@RequestParam(name = "userLastname", required =  false) String userLastname){
+		List<UserEntity> entities = customUserRepository.searchUserByCriteria(userId, userHnId, userCardId, userFirstname, userLastname);
+		if (entities != null && entities.size() > 0) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
+	
+	
 	@PostMapping("/users/save")
-	public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity request) {
+	public ResponseEntity<UserEntity> saveUser(@Valid @RequestBody UserEntity request) {
 		if (request != null) {
 			log.info("saveUser : " + request.toString());
 			UserEntity entity = new UserEntity();
@@ -107,7 +154,7 @@ public class UserController {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
-
+	
 	@PostMapping("/users/update")
 	public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity request) {
 		if (request.getUserId() != null) {

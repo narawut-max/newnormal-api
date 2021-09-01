@@ -25,7 +25,7 @@ public class BilldrugDetailEntity implements Serializable {
 	@Id
 	private Integer billdrugDetailId;
 	private Integer billId;
-	private Integer drugId;
+	private String drugId;
 	private String drugName;
 	private String drugCount;
 	private BigDecimal drugPrice;

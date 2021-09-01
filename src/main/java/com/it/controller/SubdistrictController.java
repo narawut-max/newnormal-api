@@ -46,19 +46,19 @@ public class SubdistrictController {
 		SubdistrictResponse response = new SubdistrictResponse();
 		if (ObjectUtils.isNotEmpty(entity)) {
 			response = modelMapper.map(entity, SubdistrictResponse.class);
-			
-			Optional<DistrictEntity>  districtEntity = districtRepository.findById(entity.getDisId());
-			if(districtEntity.isPresent()) {
+
+			Optional<DistrictEntity> districtEntity = districtRepository.findById(entity.getDisId());
+			if (districtEntity.isPresent()) {
 				response.setDistrict(modelMapper.map(districtEntity.get(), DistrictResponse.class));
-				
+
 				Optional<ProvinceEntity> provinceEntity = provinceRepository.findById(districtEntity.get().getPvnId());
 				if (provinceEntity.isPresent()) {
 					response.setProvince(modelMapper.map(provinceEntity.get(), ProvinceResponse.class));
 				}
 			}
-		}	
-		return response;	
-		
+		}
+		return response;
+
 	}
 	
 	@GetMapping("/subdistricts")

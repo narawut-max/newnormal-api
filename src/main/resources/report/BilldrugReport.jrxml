@@ -32,7 +32,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<parameter name="BillId" class="java.lang.String"/>
+	<parameter name="billId" class="java.lang.String"/>
 	<parameter name="userHnId" class="java.lang.String"/>
 	<parameter name="tmDate" class="java.util.Date"/>
 	<parameter name="tmTime" class="java.sql.Timestamp"/>
@@ -120,7 +120,7 @@ WHERE CITY = 'Oslo']]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{BillId}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{billId}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="180" y="0" width="70" height="30" uuid="47b40c4a-1e9f-4860-93b5-dc1538f70031"/>
