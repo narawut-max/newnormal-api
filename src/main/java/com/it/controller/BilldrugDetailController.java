@@ -37,14 +37,9 @@ public class BilldrugDetailController {
 	}
 	
 	@PostMapping("/billdrugs-detail/save")
-	public ResponseEntity<BilldrugDetailEntity> saveDetail(@RequestBody BilldrugDetailEntity request) {
+	public ResponseEntity<List<BilldrugDetailEntity>> saveDetail(@RequestBody List<BilldrugDetailEntity> request) {
 		if (request != null) {
-			BilldrugDetailEntity entity = new BilldrugDetailEntity();
-			entity.setBilldrugDetailId(request.getBilldrugDetailId());
-			entity.setBillId(request.getBillId());
-			entity.setDrugName(request.getDrugName());
-			entity.setDrugCount(request.getDrugCount());
-			return ResponseEntity.ok(billdrugDetailRepository.save(entity));
+			return ResponseEntity.ok(billdrugDetailRepository.saveAll(request));
 		}else {
 			return ResponseEntity.badRequest().body(null);
 		}

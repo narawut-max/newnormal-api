@@ -23,5 +23,7 @@ public class BookingResponse implements Serializable {
 	private Timestamp bkTime;
 	private String bkSymptom;
 	private String bkStatus;
+	private String userId;
 	private TreatmentResponse treatment;
+	private UserResponse user;
 }

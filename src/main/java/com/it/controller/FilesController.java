@@ -50,7 +50,7 @@ public class FilesController {
 	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	  }
 
-	@PostMapping("/upload")
+	@PostMapping("/uploads")
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 	    String message = "";
 	    try {

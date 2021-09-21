@@ -92,6 +92,18 @@ public class UserController {
 
 	}
 	
+	@GetMapping("/users/by-userId")
+	public ResponseEntity<List<UserResponse>> getUserByUser(@RequestParam(name = "userId") Integer userId) {
+		List<UserEntity> entities = userRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().filter(data -> data.getUserId() == userId)
+					.map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
+
+	}
+	
 //	@GetMapping("/users/by-Department")
 //	public ResponseEntity<List<UserResponse>> gettreatBydepartment(@RequestParam(name = "userDepartment") String userDepartment) {
 //		List<UserEntity> entities = userRepository.findAll();

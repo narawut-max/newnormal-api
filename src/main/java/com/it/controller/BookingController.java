@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.entity.BilldrugEntity;
 import com.it.entity.BookingEntity;
 import com.it.entity.RoleEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.model.BilldrugResponse;
 import com.it.model.BookingResponse;
 import com.it.model.TreatmentResponse;
 import com.it.model.UserResponse;
@@ -37,18 +39,40 @@ public class BookingController {
 	@Autowired
 	private BookingRepository bookingRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+    private ModelMapper modelMapper;
+	
+	private BookingResponse convertToResponse(BookingEntity entity) {
+		BookingResponse response = modelMapper.map(entity, BookingResponse.class);
+		
+		//set user
+		Optional<UserEntity> userEntity = userRepository.findById(Integer.valueOf(entity.getUserId()));
+		if (userEntity.isPresent()) {
+			response.setUser(modelMapper.map(userEntity.get(), UserResponse.class));
+		}
+
+		return response;
+	}
 	
 	@GetMapping("/bookings")
-	public ResponseEntity<List<BookingEntity>> getAllBookings() {
-		return ResponseEntity.ok(bookingRepository.findAll());
+	public ResponseEntity<List<BookingResponse>> getAllBookings(){
+		List<BookingEntity> entities = bookingRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 	}
 	
 	@GetMapping("/bookings/{bkId}")
-	public ResponseEntity<BookingEntity> getBilldrugByBkId(@PathVariable("bkId") Integer bkId){
+	public ResponseEntity<BookingResponse> getBookingByBkId(@PathVariable("bkId") Integer bkId){
 		Optional<BookingEntity> entity = bookingRepository.findById(bkId);
-		if(entity.isPresent()) {
-			return ResponseEntity.ok(entity.get());
-		} else {
+		if (entity.isPresent()) {
+			return ResponseEntity.ok(convertToResponse(entity.get()));
+		}else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
@@ -62,6 +86,7 @@ public class BookingController {
 			entity.setBkTime(request.getBkTime() != null ? entity.getBkTime() : Timestamp.valueOf(LocalDateTime.now()));
 			entity.setBkSymptom(request.getBkSymptom());
 			entity.setBkStatus(request.getBkStatus());
+			entity.setUserId(request.getUserId());
 			return ResponseEntity.ok(bookingRepository.save(entity));
 		}else {
 			return ResponseEntity.badRequest().body(null);
@@ -77,6 +102,7 @@ public class BookingController {
 				updateEntity.setBkQueue(request.getBkQueue());
 				updateEntity.setBkSymptom(request.getBkSymptom());
 				updateEntity.setBkStatus(request.getBkStatus());
+				updateEntity.setUserId(request.getUserId());
 				if (request.getBkDate() != null) {
 					updateEntity.setBkDate(request.getBkDate());
 				}

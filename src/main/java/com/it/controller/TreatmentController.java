@@ -1,5 +1,6 @@
 package com.it.controller;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -150,30 +151,33 @@ public class TreatmentController {
 	}
 	
 	@PostMapping("/treatments/update")
-	public ResponseEntity<TreatmentEntity> updateTreatment(@RequestBody TreatmentEntity request){
-		if (request.getTmId() != null) {
-			Optional<TreatmentEntity> entity = treatmentRepository.findById(request.getTmId());
-			if (entity.isPresent()) {
-				TreatmentEntity updateEntity = entity.get();
-				updateEntity.setTmMoney(request.getTmMoney());
-				updateEntity.setTmSlip(request.getTmSlip());
-				updateEntity.setTmStatus(request.getTmStatus());
-				updateEntity.setTmProcess(request.getTmProcess());
-				updateEntity.setUserId(request.getUserId());
-				updateEntity.setBkId(request.getBkId());
-				updateEntity.setBillId(request.getBillId());
-				if (request.getTmDate() != null) {
-					updateEntity.setTmDate(request.getTmDate());
-				}				
-				if (request.getTmTime() != null) {
-					updateEntity.setTmTime(request.getTmTime());
-				}
-				return ResponseEntity.ok(treatmentRepository.save(updateEntity));
-			}else {
-				return ResponseEntity.badRequest().body(null);
-			}
+	public ResponseEntity<List<TreatmentEntity>> updateTreatment(@RequestBody List<TreatmentEntity> request){
+		if (request != null) {
+			 List<TreatmentEntity> filterTreatments = request.stream().map(this::filterTreatmentForUpdate).collect(Collectors.toList());
+			return ResponseEntity.ok(treatmentRepository.saveAll(filterTreatments));
 		}else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
+	
+	private TreatmentEntity filterTreatmentForUpdate(TreatmentEntity request) {
+		TreatmentEntity response = new TreatmentEntity();
+		Optional<TreatmentEntity> treatmentEntity = treatmentRepository.findById(request.getTmId());
+		if (treatmentEntity.isPresent()) {
+			response = TreatmentEntity.builder()
+			.tmId(request.getTmId() != null ? request.getTmId() : treatmentEntity.get().getTmId())
+			.tmDate(request.getTmDate() != null ? request.getTmDate() : treatmentEntity.get().getTmDate())
+			.tmTime(request.getTmTime() != null ? request.getTmTime() : treatmentEntity.get().getTmTime())
+			.tmMoney(request.getTmMoney() != null ? request.getTmMoney() : treatmentEntity.get().getTmMoney())
+			.tmSlip(request.getTmSlip() != null ? request.getTmSlip() : treatmentEntity.get().getTmSlip())
+			.tmStatus(request.getTmStatus() != null ? request.getTmStatus() : treatmentEntity.get().getTmStatus())
+			.tmProcess(request.getTmProcess() != null ? request.getTmProcess() : treatmentEntity.get().getTmProcess())
+			.userId(request.getUserId() != null ? request.getUserId() : treatmentEntity.get().getUserId())
+			.bkId(request.getBkId() != null ? request.getBkId() : treatmentEntity.get().getBkId())
+			.billId(request.getBillId() != null ? request.getBillId() : treatmentEntity.get().getBillId())
+			.build();
+		}		
+		return response;
+	}
+	
 }//end
