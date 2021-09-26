@@ -29,10 +29,12 @@ public class BookingEntity implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer bkId;
 	private String bkQueue;
-	private Date bkDate;
-	private Timestamp bkTime;
+	private String bkDate;
+	private String bkTime;
 	private String bkSymptom;
 	private String bkStatus;
+	private String bkDepartment;
 	private String userId;
+	private String mailFlag;
 
 }

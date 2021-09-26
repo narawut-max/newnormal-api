@@ -19,10 +19,11 @@ public class BookingResponse implements Serializable {
 	
 	private Integer bkId;
 	private String bkQueue;
-	private Date bkDate;
-	private Timestamp bkTime;
+	private String bkDate;
+	private String bkTime;
 	private String bkSymptom;
 	private String bkStatus;
+	private String bkDepartment;
 	private String userId;
 	private TreatmentResponse treatment;
 	private UserResponse user;

@@ -366,7 +366,7 @@ WHERE CITY = 'Oslo']]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{userHnId}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{tmDate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="76" y="72" width="98" height="30" uuid="ecd435d9-54c2-4d30-a012-5516e22ef0d6"/>

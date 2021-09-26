@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.it.entity.BilldrugEntity;
@@ -22,6 +23,7 @@ import com.it.entity.BookingEntity;
 import com.it.entity.RoleEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.enums.MailFlags;
 import com.it.model.BilldrugResponse;
 import com.it.model.BookingResponse;
 import com.it.model.TreatmentResponse;
@@ -77,16 +79,42 @@ public class BookingController {
 		}
 	}
 	
+	@GetMapping("/bookings/by-user")
+	public ResponseEntity<List<BookingResponse>> getbookingsByUserId(@RequestParam(name = "userId") Integer userId) {
+		List<BookingEntity> entities = bookingRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().filter(data -> (Integer.parseInt(data.getUserId())) == userId)
+					.map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
+
+	}
+	
+	@GetMapping("/bookings/by-Department")
+	public ResponseEntity<List<BookingResponse>> getbookingBydepartment(@RequestParam(name = "bkDepartment") String bkDepartment) {
+		List<BookingEntity> entities = bookingRepository.findAll();
+		if (CollectionUtils.isNotEmpty(entities)) {
+			return ResponseEntity.ok(entities.stream().filter(data -> data.getBkDepartment().equals(bkDepartment))
+					.map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
+
+	}
+	
 	@PostMapping("/bookings/save")
 	public ResponseEntity<BookingEntity> saveBooking(@RequestBody BookingEntity request) {
 		if (request !=null) {
 			BookingEntity entity = new BookingEntity();
 			entity.setBkQueue(request.getBkQueue());
-			entity.setBkDate(request.getBkDate() != null ? entity.getBkDate() : new Date());
-			entity.setBkTime(request.getBkTime() != null ? entity.getBkTime() : Timestamp.valueOf(LocalDateTime.now()));
+			entity.setBkDate(request.getBkDate());
+			entity.setBkTime(request.getBkTime());
 			entity.setBkSymptom(request.getBkSymptom());
 			entity.setBkStatus(request.getBkStatus());
+			entity.setBkDepartment(request.getBkDepartment());
 			entity.setUserId(request.getUserId());
+			entity.setMailFlag(MailFlags.NOT_SEND.value);
 			return ResponseEntity.ok(bookingRepository.save(entity));
 		}else {
 			return ResponseEntity.badRequest().body(null);
@@ -102,6 +130,7 @@ public class BookingController {
 				updateEntity.setBkQueue(request.getBkQueue());
 				updateEntity.setBkSymptom(request.getBkSymptom());
 				updateEntity.setBkStatus(request.getBkStatus());
+				updateEntity.setBkDepartment(request.getBkDepartment());
 				updateEntity.setUserId(request.getUserId());
 				if (request.getBkDate() != null) {
 					updateEntity.setBkDate(request.getBkDate());
