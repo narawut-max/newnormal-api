@@ -42,10 +42,11 @@ public class Scheduler {
 	private UserRepository userRepository;
 
 	private static final int timeForSentMail = 15;
-	private static final String mailSubject = "แจ้งเตือนกำหนดถึงคิวของคุณเหลืออีก 15 นาที";
-	private static final String mailDetail = "แจ้งเตือนกำหนดถึงคิวของคุณเหลืออีก 15 นาที";
+	private static final String mailSubject = "จะถึงคิวของคุณในอีก 15 นาที";
+	private static final String mailDetail = "แจ้งเตือนกำหนดถึงคิวของคุณเหลืออีก 15 นาที <br> โปรดเตรียมตัวให้พร้อม";
+	
 
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 1000)
 	public void sendmailScheduler() {
 		System.out.println("start Scheduler send mail 15 minutes");
 		List<BookingEntity> entities = bookingRepository.findAll();
@@ -55,9 +56,14 @@ public class Scheduler {
 				// convert bkDate to date for compare current date to process
 				LocalDate bkDate = LocalDate.parse(entity.getBkDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				if (currentDate.compareTo(bkDate) == 0) {
-					LocalTime bkTime = LocalTime.parse(entity.getBkTime(), DateTimeFormatter.ofPattern("HH:mm"));
-					Duration duration = Duration.between(bkTime, LocalTime.now());
-					if (duration.toMinutes() == timeForSentMail) {
+					DateTimeFormatter bkTime = DateTimeFormatter.ofPattern("HH:mm");
+					LocalTime currentTime = LocalTime.parse(LocalTime.now().format(bkTime), bkTime);
+					LocalTime timeForCompare = LocalTime.parse(entity.getBkTime(), bkTime);
+					Duration duration = Duration.between(currentTime, timeForCompare);
+					
+					//LocalTime bkTime = LocalTime.parse(entity.getBkTime(), DateTimeFormatter.ofPattern("HH:mm"));
+					//Duration duration = Duration.between(bkTime, LocalTime.now());
+					if (duration.toMinutes() == 15) {
 						Optional<UserEntity> user = userRepository.findById(Integer.parseInt(entity.getUserId()));
 						if (user.isPresent() && !MailFlags.SENDTED.value.equals(entity.getMailFlag())) {
 							sendEmailUtils.sendSimpleMessage(user.get().getUserEmail(), mailSubject, mailDetail);
@@ -70,6 +76,4 @@ public class Scheduler {
 			}
 		}
 	}
-	
-	
 }

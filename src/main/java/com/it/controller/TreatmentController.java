@@ -12,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.lucene.search.Collector;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.it.custom.repository.CustomTreatmentRepository;
 import com.it.entity.BilldrugEntity;
@@ -27,6 +29,8 @@ import com.it.entity.BookingEntity;
 import com.it.entity.DrugEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.enums.MoneyStatus;
+import com.it.message.ResponseMessage;
 import com.it.model.BilldrugResponse;
 import com.it.model.BookingResponse;
 import com.it.model.TreatmentResponse;
@@ -106,7 +110,7 @@ public class TreatmentController {
 	public ResponseEntity<List<TreatmentResponse>> gettreatmentsByUserId(@RequestParam(name = "userId") Integer userId) {
 		List<TreatmentEntity> entities = treatmentRepository.findAll();
 		if (CollectionUtils.isNotEmpty(entities)) {
-			return ResponseEntity.ok(entities.stream().filter(data -> (Integer.parseInt(data.getUserId())) == userId)
+			return ResponseEntity.ok(entities.stream().filter(data -> data.getUserId() == userId)
 					.map(this::convertToResponse).collect(Collectors.toList()));
 		} else {
 			return ResponseEntity.badRequest().body(null);
@@ -139,7 +143,7 @@ public class TreatmentController {
 			entity.setTmTime(request.getTmTime() != null ? entity.getTmTime() : Timestamp.valueOf(LocalDateTime.now()));
 			entity.setTmMoney(request.getTmMoney());
 			entity.setTmSlip(request.getTmSlip());
-			entity.setTmStatus(request.getTmStatus());
+			entity.setTmStatus(MoneyStatus.WAIT.value);
 			entity.setTmProcess(request.getTmProcess());
 			entity.setUserId(request.getUserId());
 			entity.setBkId(request.getBkId());
@@ -180,4 +184,23 @@ public class TreatmentController {
 		return response;
 	}
 	
+	//update Status
+	@PostMapping("/treatments/updates")
+	public ResponseEntity<TreatmentEntity> updateTreatmentStatus(@RequestBody TreatmentEntity request) {
+		if(request.getTmId() != null) {
+			Optional<TreatmentEntity> entity = treatmentRepository.findById(request.getTmId());
+			if (entity.isPresent()) {
+				//set update data form request				
+				TreatmentEntity updateEntities = entity.get();
+				updateEntities.setTmStatus(request.getTmStatus());	
+				updateEntities.setTmSlip(request.getTmSlip());
+				return ResponseEntity.ok(treatmentRepository.save(updateEntities));
+			} else {
+				return ResponseEntity.badRequest().body(null);
+			}			
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}		
+	}
+
 }//end

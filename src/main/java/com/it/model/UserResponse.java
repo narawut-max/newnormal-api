@@ -39,6 +39,7 @@ public class UserResponse implements Serializable {
 	private String userAddrass;
 	private String zipCode;
 	private String roleId;
+	private String sdtId;
 	private TreatmentResponse treatment;
 	private RoleResponse role;
 }

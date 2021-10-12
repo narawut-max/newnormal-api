@@ -25,7 +25,7 @@ public class TreatmentResponse implements Serializable {
 	private String tmSlip;
 	private String tmStatus;
 	private String tmProcess;
-	private String userId;
+	private Integer userId;
 	private Integer bkId;
 	private Integer billId;
 	private BilldrugResponse billdrug;

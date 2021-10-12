@@ -2,6 +2,7 @@ package com.it.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import com.it.entity.BookingEntity;
 import com.it.entity.RoleEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.enums.BookingStatus;
 import com.it.enums.MailFlags;
 import com.it.model.BilldrugResponse;
 import com.it.model.BookingResponse;
@@ -105,18 +107,30 @@ public class BookingController {
 	
 	@PostMapping("/bookings/save")
 	public ResponseEntity<BookingEntity> saveBooking(@RequestBody BookingEntity request) {
-		if (request !=null) {
+		if (request != null) {			
+			//for auto set Queue auto by bk_date
+			Optional<List<BookingEntity>> bookings = bookingRepository.findByBkDate(request.getBkDate());
+			String nextQueue = "1";
+			if (bookings.isPresent()) {				
+				//get max of bk_queue
+				String maxQueue = bookings.get().stream().max(Comparator.comparing(BookingEntity::getBkQueue)).map(BookingEntity::getBkQueue).orElse("0");
+				nextQueue = String.valueOf(Integer.parseInt(maxQueue) + 1);
+				log.info("saveBooking :: maxQueue : " + maxQueue);
+				log.info("saveBooking :: nextQueue : " + nextQueue);
+			}
+			
 			BookingEntity entity = new BookingEntity();
-			entity.setBkQueue(request.getBkQueue());
+			entity.setBkQueue(nextQueue);
 			entity.setBkDate(request.getBkDate());
 			entity.setBkTime(request.getBkTime());
 			entity.setBkSymptom(request.getBkSymptom());
-			entity.setBkStatus(request.getBkStatus());
 			entity.setBkDepartment(request.getBkDepartment());
 			entity.setUserId(request.getUserId());
+			entity.setBkStatus(BookingStatus.WAIT.value);
 			entity.setMailFlag(MailFlags.NOT_SEND.value);
 			return ResponseEntity.ok(bookingRepository.save(entity));
-		}else {
+			
+		} else {
 			return ResponseEntity.badRequest().body(null);
 		}
 	}
@@ -147,6 +161,37 @@ public class BookingController {
 		}
 	}
 	
+	@PostMapping("/bookings/updates")
+	public ResponseEntity<BookingEntity> updateBookingStatus(@RequestBody BookingEntity request) {
+		if (request.getBkId() !=null) {
+			Optional<BookingEntity> entity = bookingRepository.findById(request.getBkId()); 
+			if (entity.isPresent()) {
+				BookingEntity updateEntities = entity.get();
+				updateEntities.setBkStatus(request.getBkStatus());
+				return ResponseEntity.ok(bookingRepository.save(updateEntities));
+			}else {
+				return ResponseEntity.badRequest().body(null);
+			}
+		}else {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
 	
+	@PostMapping("/bookings/update-bk-status/{bkId}")
+	public ResponseEntity<BookingEntity> updateStatus(@PathVariable(name = "bkId")Integer bkId, @RequestParam(name = "bkStatus") String bkStatus) {
+		log.info("updateStatus :: bkId : " + bkId + ", bkStatus : " + bkStatus);
+		if (bkId != null) {
+			Optional<BookingEntity> entity = bookingRepository.findById(bkId); 
+			if (entity.isPresent()) {
+				BookingEntity updateEntities = entity.get();
+				updateEntities.setBkStatus(bkStatus);
+				return ResponseEntity.ok(bookingRepository.save(updateEntities));
+			}else {
+				return ResponseEntity.badRequest().body(null);
+			}
+		}else {
+			return ResponseEntity.badRequest().body(null);
+		}
+	}
 	
 }

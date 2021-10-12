@@ -1,5 +1,6 @@
 package com.it.controller;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.it.entity.BilldrugEntity;
 import com.it.entity.TreatmentEntity;
 import com.it.entity.UserEntity;
+import com.it.enums.BillDrugStatus;
 import com.it.model.BilldrugResponse;
 import com.it.model.TreatmentResponse;
 import com.it.model.UserResponse;
@@ -52,7 +54,7 @@ public class BilldrugController {
 		Optional<TreatmentEntity> treatEntity = treatmentRepository.findById(entity.getTmId());
 		if (treatEntity.isPresent()) {
 			TreatmentResponse treatmentResponse = modelMapper.map(treatEntity.get(), TreatmentResponse.class);
-			Optional<UserEntity> userEntity = userRepository.findById(Integer.parseInt(treatEntity.get().getUserId()));
+			Optional<UserEntity> userEntity = userRepository.findById(treatEntity.get().getUserId());
 			if (userEntity.isPresent()) {
 				treatmentResponse.setUser(modelMapper.map(userEntity.get(), UserResponse.class));
 			}
@@ -88,6 +90,7 @@ public class BilldrugController {
 			log.info("saveBilldrug : " + request.toString());
 			BilldrugEntity entity = new BilldrugEntity();
 			entity.setBillId(request.getBillId());
+			entity.setBillStatus(BillDrugStatus.ORDER.value);
 			//entity.setDrugId(request.getDrugId());
 			entity.setBillNext(request.getBillNext());
 			entity.setTmId(request.getTmId());
@@ -106,6 +109,7 @@ public class BilldrugController {
 			if (entity.isPresent()) {
 				//set update data form request				
 				BilldrugEntity updateEntity = entity.get();
+				updateEntity.setBillStatus(request.getBillStatus());
 				//updateEntity.setDrugId(request.getDrugId());
 				updateEntity.setTmId(request.getTmId());
 				updateEntity.setBillNext(request.getBillNext());
@@ -124,4 +128,22 @@ public class BilldrugController {
 		}		
 	}
 
+	//update Status
+	@PostMapping("/billdrugs/updates")
+	public ResponseEntity<BilldrugEntity> updateBilldrugStatus(@RequestBody BilldrugEntity request) {
+		if(request.getBillId() != null) {
+			Optional<BilldrugEntity> entity = billdrugRepository.findById(request.getBillId());
+			if (entity.isPresent()) {
+				//set update data form request				
+				BilldrugEntity updateEntities = entity.get();
+				updateEntities.setBillStatus(request.getBillStatus());			
+				return ResponseEntity.ok(billdrugRepository.save(updateEntities));
+			} else {
+				return ResponseEntity.badRequest().body(null);
+			}			
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}		
+	}
+	
 }

@@ -31,6 +31,7 @@ public class BilldrugEntity implements Serializable{
 	private Date billDate;
 	private Timestamp billTime;
 	private String billNext;
+	private String billStatus;
 	//private String drugId;
 	private Integer tmId;
 	

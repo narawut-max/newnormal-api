@@ -71,8 +71,18 @@ public class SubdistrictController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/subdistricts/{sdtId}")
-	public ResponseEntity<SubdistrictResponse> getSubdistrictBySdtId(@PathVariable("sdtId") Integer sdtId){
+	@GetMapping("/subdistricts/zipCode")
+	public ResponseEntity<List<SubdistrictResponse>> getAllSubdistrictByZipCode(@RequestParam("zipCode") String zipCode) {
+		List<SubdistrictResponse> response = new ArrayList<>();
+		List<SubdistrictEntity> entities = subdistrictRepository.findByZipCode(zipCode);
+		if (CollectionUtils.isNotEmpty(entities)) {
+			response = entities.stream().map(this::convertToResponse).collect(Collectors.toList());
+		}
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/subdistricts/sdtId")
+	public ResponseEntity<SubdistrictResponse> getSubdistrictBySdtId(@RequestParam("sdtId") Integer sdtId){
 		Optional<SubdistrictEntity> entity = subdistrictRepository.findById(sdtId);
 		if(entity.isPresent()) {
 			return ResponseEntity.ok(this.convertToResponse(entity.get()));
@@ -81,7 +91,7 @@ public class SubdistrictController {
 		}
 	}
 	
-	@GetMapping("/subdistricts/by-zip-code")
+	@GetMapping("/subdistricts/by_zip_code")
 	public ResponseEntity<SubdistrictResponse> getSubdistrictBySdtId(@RequestParam("zipCode") String zipCode){
 		List<SubdistrictEntity> entities = subdistrictRepository.findAll();
 		if(CollectionUtils.isNotEmpty(entities)) {			

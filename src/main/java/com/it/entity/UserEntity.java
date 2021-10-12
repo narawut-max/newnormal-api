@@ -52,5 +52,6 @@ public class UserEntity implements Serializable{
 	private String userAddrass;
 	private String zipCode;
 	private String roleId;
+	private String sdtId;
 	
 }

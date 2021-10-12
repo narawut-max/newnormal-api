@@ -45,6 +45,8 @@ public class ReportController {
 		return response;
 	}
 	
+	//********** generateBilldrugReport ************
+	
 	@GetMapping(path = "/generateBilldrugReport")
 	public ResponseEntity<InputStreamResource> generateBilldrugReport(@RequestParam(name = "billId", required = true) Integer billId) throws IOException{
 		log.info("generateReport : Start :: billId : " + billId);
@@ -61,6 +63,24 @@ public class ReportController {
 		log.info("generateReport : End");
 		return response;
 	}
+	
+	//********** generateTreatmentReport ************
+	@GetMapping(path = "/generateTreatmentReport")
+	public ResponseEntity<InputStreamResource> generateTreatmentReport(@RequestParam(name = "userId", required = true) Integer userId) throws IOException{
+		log.info("generateReport : Start :: userId : " + userId);
+		ResponseEntity<InputStreamResource> response = null;
+		try (ByteArrayOutputStream out = reportService.generateTreatmentReport(userId)){
+			if(out != null) {
+				response = new  ResponseEntity<>(new InputStreamResource(new ByteArrayInputStream(out.toByteArray())),
+						ReportUtils.createResponseHeader(MediaType.APPLICATION_PDF, "TreatmentReport.pdf", null),
+						HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			log.error("generateReport Error : {}" , e);
+		}
+		log.info("generateReport : End");
+		return response;
+	}
 
 
-}
+}//end

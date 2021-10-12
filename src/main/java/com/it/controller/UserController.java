@@ -161,6 +161,7 @@ public class UserController {
 			entity.setUserAddrass(request.getUserAddrass());
 			entity.setZipCode(request.getZipCode());
 			entity.setRoleId(request.getRoleId());
+			entity.setSdtId(request.getSdtId());
 			return ResponseEntity.ok(userRepository.save(entity));
 		} else {
 			return ResponseEntity.badRequest().body(null);
@@ -196,6 +197,7 @@ public class UserController {
 				updateEntity.setUserAddrass(request.getUserAddrass());
 				updateEntity.setZipCode(request.getZipCode());
 				updateEntity.setRoleId(request.getRoleId());
+				updateEntity.setSdtId(request.getSdtId());
 				return ResponseEntity.ok(userRepository.save(updateEntity));
 			} else {
 				return ResponseEntity.badRequest().body(null);
