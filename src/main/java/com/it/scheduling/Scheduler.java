@@ -43,7 +43,23 @@ public class Scheduler {
 
 	private static final int timeForSentMail = 15;
 	private static final String mailSubject = "จะถึงคิวของคุณในอีก 15 นาที";
-	private static final String mailDetail = "แจ้งเตือนกำหนดถึงคิวของคุณเหลืออีก 15 นาที <br> โปรดเตรียมตัวให้พร้อม";
+	private static final String mailSubject2 = "จะถึงคิวของคุณในอีก 10 นาที";
+	private static final String mailDetail = 
+			"<b>เรียน</b> &nbsp;&nbsp;ผู้ใช้บริการจองคิวเข้ารักษาโรค"
+			+ "<br>"
+			+ "<b>เรื่อง</b> &nbsp;&nbsp;แจ้งเวลาเข้ารักษาของท่าน"
+			+ "<br><br>"
+			+ "ตามที่ท่านได้จองคิวเข้ารักษา ทางโรงพยาบาลขอแจ้งให้ทราบว่าอีก 15 นาที จะถึงคิวการรักษาของท่าน"
+			+ "<br>"
+			+ "ขอให้ท่านไปรอที่แผนกการรักษาก่อนถึงเวลานัดอย่างน้อย <b>5 นาที</b> เพื่อความตรงต่อเวลาและลดปัญหาที่จะตามมา"
+			+ "<br>"
+			+ "โปรดเตรียมบัตรประชาชนและหลักฐานการจองคิวจากระบบเพื่อแสดงข้อมูลการจองคิวต่อเจ้าหน้าที่โรงพยาบาล"
+			+ "<br>"
+			+ "หากท่านมาไม่ทันตามเวลาที่จอง ทางโรงพยาบาล<b>ขออนุญาตข้ามคิว</b> และ <b>ยกเลิกคิว</b> หากไม่มาภายใน 1 ชั่วโมง"
+			+ "<br><br>"
+			+ "ขอแสดงความนับถือ"
+			+ "<br>"
+			+ "โรงพยาบาลนวเวช";
 	
 
 	@Scheduled(fixedRate = 1000)
@@ -67,6 +83,16 @@ public class Scheduler {
 						Optional<UserEntity> user = userRepository.findById(Integer.parseInt(entity.getUserId()));
 						if (user.isPresent() && !MailFlags.SENDTED.value.equals(entity.getMailFlag())) {
 							sendEmailUtils.sendSimpleMessage(user.get().getUserEmail(), mailSubject, mailDetail);
+							entity.setMailFlag(MailFlags.SENDTED.value);
+							bookingRepository.save(entity);
+							System.out.println("send mail to " + user.get().getUserEmail() + " success");
+						}
+					}
+					
+					if (duration.toMinutes() == 10) {
+						Optional<UserEntity> user = userRepository.findById(Integer.parseInt(entity.getUserId()));
+						if (user.isPresent() && !MailFlags.SENDTED.value.equals(entity.getMailFlag())) {
+							sendEmailUtils.sendSimpleMessage(user.get().getUserEmail(), mailSubject2, mailDetail);
 							entity.setMailFlag(MailFlags.SENDTED.value);
 							bookingRepository.save(entity);
 							System.out.println("send mail to " + user.get().getUserEmail() + " success");

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.custom.repository.CustomBookingRepository;
 import com.it.entity.BilldrugEntity;
 import com.it.entity.BookingEntity;
 import com.it.entity.RoleEntity;
@@ -45,6 +46,9 @@ public class BookingController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CustomBookingRepository customBookingRepository;
 	
 	@Autowired
     private ModelMapper modelMapper;
@@ -103,6 +107,20 @@ public class BookingController {
 			return ResponseEntity.badRequest().body(null);
 		}
 
+	}
+
+	@GetMapping("/bookings/search-by-criteria")
+	public ResponseEntity<List<BookingResponse>> getSearchTreatByCriteria(
+			@RequestParam(name = "bkId", required =  false) String bkId,
+			@RequestParam(name = "userHnId", required =  false) String userHnId,
+			@RequestParam(name = "userFirstname", required =  false) String userFirstname,
+			@RequestParam(name = "userLastname", required =  false) String userLastname){
+		List<BookingEntity> entities = customBookingRepository.searchTreatByCriteria(bkId, userHnId, userFirstname, userLastname);
+		if (entities != null && entities.size() > 0) {
+			return ResponseEntity.ok(entities.stream().map(this::convertToResponse).collect(Collectors.toList()));
+		} else {
+			return ResponseEntity.badRequest().body(null);
+		}
 	}
 	
 	@PostMapping("/bookings/save")

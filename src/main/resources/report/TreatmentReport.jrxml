@@ -30,7 +30,7 @@
 	<title>
 		<band height="197" splitType="Stretch">
 			<image>
-				<reportElement x="12" y="-12" width="87" height="82" uuid="9069d3f8-a122-432c-9924-32cff26e0ba7"/>
+				<reportElement x="12" y="-10" width="98" height="91" uuid="9069d3f8-a122-432c-9924-32cff26e0ba7"/>
 				<imageExpression><![CDATA["https://media.jobthai.com/v1/images/logo-pic-map/266744_logo_20200316173237.png"]]></imageExpression>
 			</image>
 			<staticText>

@@ -68,7 +68,7 @@ WHERE CITY = 'Oslo']]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="36" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<staticText>
 				<reportElement x="2" y="11" width="119" height="23" uuid="2bd4f19d-35b2-44a7-8acb-1caccd89c2ab"/>
 				<box>
@@ -350,26 +350,12 @@ WHERE CITY = 'Oslo']]>
 				<imageExpression><![CDATA[$P{tmMoney}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="21" y="36" width="84" height="30" uuid="b8b0d85b-fbad-4395-afeb-96f2af491fdf"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[พบแพทย์ครั้งต่อไป : ]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="21" y="72" width="84" height="30" uuid="7167b3cb-dc6f-4065-bf78-090f346a799f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[พบแพทย์ครั้งต่อไป : ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="105" y="36" width="69" height="30" uuid="e644ea70-840d-4d28-8227-8c19c365c15d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{billId}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="105" y="72" width="98" height="30" uuid="ecd435d9-54c2-4d30-a012-5516e22ef0d6"/>
 				<textElement verticalAlignment="Middle">
@@ -396,6 +382,34 @@ WHERE CITY = 'Oslo']]>
 					<font fontName="TH SarabunPSK" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[รวม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="125" width="553" height="24" uuid="a1ff1971-8856-4005-8786-84847b652f46"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1. กรุณามาตรวจตรงตามวันและช่วงเวลาที่นัด 2. กรุณานำบัตรนี้และบัตรประชาชนมาด้วยทุกครั้ง 3. หากมีอาการผิดปกติสามารถพบแพทย์ก่อนวันนัดได้]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="37" width="115" height="30" uuid="0a6a8ac0-c8c1-4a31-b302-b7c0eedf482d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{userDepartment}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="37" width="84" height="30" uuid="ff2d0951-cd52-4a98-98da-40e3a0d3b943"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[แผนกที่เข้ารักษา : ]]></text>
 			</staticText>
 		</band>
 	</summary>

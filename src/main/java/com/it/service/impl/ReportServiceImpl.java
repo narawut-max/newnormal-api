@@ -90,7 +90,7 @@ public class ReportServiceImpl implements ReportService {
 		log.info("generateReport : End");
 		return out;
 	}
-
+	
 	//******** generateBilldrugReport ***********
 	@Override
 	public ByteArrayOutputStream generateBilldrugReport(Integer billId) throws IOException {
